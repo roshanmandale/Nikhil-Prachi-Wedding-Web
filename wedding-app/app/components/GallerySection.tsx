@@ -110,7 +110,7 @@ const PhotoFrame = ({ style_id, imageUrl }: { style_id: number, imageUrl?: strin
 // 1. Place your actual photo in the `public` folder of your project (e.g., public/photos/pic1.jpg)
 // 2. Add an `imageUrl` property here matching the path like: `imageUrl: "/photos/pic1.jpg"`
 // 3. The gallery will automatically replace the SVG placeholder with your real image!
-const galleryItems = [
+const galleryItems: { title: string; desc: string; imageUrl?: string }[] = [
   { title: "First Meeting", desc: "Where our story began", /* imageUrl: "/photos/1.jpg" */ },
   { title: "Our Journey", desc: "Building dreams together", /* imageUrl: "/photos/2.jpg" */ },
   { title: "The Proposal", desc: "She said yes! 💍", /* imageUrl: "/photos/3.jpg" */ },

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
-import { Marigold, Mogra, Lotus } from "./SvgOrnaments";
+import { RealisticRose, RoseBud } from "./SvgOrnaments";
 
 /* ═══════════════════════════════════════════
    OPTIMIZED FLOWER SHOWER — Hero Home Only
@@ -14,7 +14,7 @@ interface FlowerProps {
   delay: number;
   duration: number;
   size: number;
-  type: "marigold" | "mogra" | "lotus";
+  type: "rose" | "bud" | "darkRose";
   rotation: number;
   rotationSpeed: number;
   horizontalDrift: number;
@@ -45,12 +45,12 @@ const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
         ease: "linear",
       }}
     >
-      {flower.type === "marigold" ? (
-        <Marigold size={flower.size} color="#FF8C00" />
-      ) : flower.type === "mogra" ? (
-        <Mogra size={flower.size} />
+      {flower.type === "rose" ? (
+        <RealisticRose size={flower.size} opacity={0.9} rotate={flower.rotation} hue="crimson" />
+      ) : flower.type === "bud" ? (
+        <RoseBud size={flower.size} opacity={0.9} rotate={flower.rotation} />
       ) : (
-        <Lotus size={flower.size} color="#D4A853" opacity={0.4} />
+        <RealisticRose size={flower.size} opacity={0.6} rotate={flower.rotation} hue="dark" />
       )}
     </motion.div>
   );
@@ -72,7 +72,7 @@ export default function FloatingPetals() {
       delay: Math.random() * 15,
       duration: 15 + Math.random() * 20,
       size: 15 + Math.random() * 25,
-      type: (Math.random() > 0.7 ? "marigold" : (Math.random() > 0.4 ? "mogra" : "lotus")) as any,
+      type: (Math.random() > 0.7 ? "rose" : (Math.random() > 0.4 ? "bud" : "darkRose")) as any,
       rotation: Math.random() * 360,
       rotationSpeed: (Math.random() - 0.5) * 500,
       horizontalDrift: (Math.random() - 0.5) * 150, // drift in pixels

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mandala, OrnamentDivider, StorybookGanesh } from "./SvgOrnaments";
 
 export default function TempleDoorEntry({ onOpen }: { onOpen: () => void }) {
   const [phase, setPhase] = useState<"intro" | "opened" | "exit">("intro");
@@ -38,9 +37,7 @@ export default function TempleDoorEntry({ onOpen }: { onOpen: () => void }) {
               animate={phase === "opened" ? { rotateY: -110, opacity: 0 } : {}}
               transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
             >
-              <div className="opacity-[0.08] translate-x-1/4">
-                <Mandala size={600} />
-              </div>
+                {/* Removed Mandala */}
             </motion.div>
 
             {/* Right Door */}
@@ -51,9 +48,7 @@ export default function TempleDoorEntry({ onOpen }: { onOpen: () => void }) {
               animate={phase === "opened" ? { rotateY: 110, opacity: 0 } : {}}
               transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
             >
-              <div className="opacity-[0.08] -translate-x-1/4">
-                <Mandala size={600} />
-              </div>
+                {/* Removed Mandala */}
             </motion.div>
           </div>
 
@@ -74,9 +69,7 @@ export default function TempleDoorEntry({ onOpen }: { onOpen: () => void }) {
             {/* Inner Border Line */}
             <div className="absolute inset-5 border border-[#D4AF37]/20 rounded-lg pointer-events-none" />
 
-            <div className="opacity-40 mb-4">
-              <StorybookGanesh size={90} color="#D4AF37" />
-            </div>
+            {/* Removed StorybookGanesh */}
 
             <p className="font-body text-[#0B132B]/60 text-xs tracking-[0.4em] uppercase font-bold mb-2">The Wedding Of</p>
             
@@ -86,7 +79,7 @@ export default function TempleDoorEntry({ onOpen }: { onOpen: () => void }) {
 
             <p className="font-body text-[#D4AF37] text-sm tracking-[0.4em] font-bold uppercase mb-6">June 08, 2026</p>
 
-            <OrnamentDivider width={220} color="#0B132B" className="opacity-20 mb-8" />
+            {/* Removed OrnamentDivider */}
 
             {/* Interactive Wax Seal Button */}
             <button

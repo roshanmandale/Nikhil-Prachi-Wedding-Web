@@ -188,7 +188,7 @@ function VenueTag({ location }: { location: string }) {
   );
 }
 
-function CeremonyRow({ item, index, baseDelay = 0 }: { item: typeof amravatiEvents[0]; index: number; baseDelay?: number }) {
+function CeremonyRow({ item, index, baseDelay = 0 }: { item: typeof preWeddingEvents[0]; index: number; baseDelay?: number }) {
   return (
     <motion.div
       key={index}
