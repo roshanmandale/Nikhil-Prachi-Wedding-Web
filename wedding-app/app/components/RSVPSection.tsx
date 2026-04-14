@@ -173,14 +173,14 @@ export default function RSVPSection() {
         {/* Form card */}
         <AnimatePresence mode="wait">
           {submitted ? (
-            <motion.div
-              key="success"
-              className="glass-card"
-              style={{ padding: '56px 28px', textAlign: 'center' }}
-              initial={{ opacity: 0, scale: 0.88 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, type: 'spring' }}
-className="glass-card gpu-layer"            >
+          <motion.div
+  key="success"
+  className="glass-card gpu-layer"
+  style={{ padding: '56px 28px', textAlign: 'center' }}
+  initial={{ opacity: 0, scale: 0.88 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.6, type: 'spring' }}
+>
               <FallingPetals count={8}/>
               {/* Animated heart */}
               <motion.div
