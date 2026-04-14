@@ -247,16 +247,15 @@ export default function RSVPSection() {
               </p>
             </motion.div>
           ) : (
-            <motion.form
-              key="form"
-              onSubmit={handleSubmit}
-              className="glass-card"
-              style={{ padding: '28px 24px 32px', overflow: 'hidden' }}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
-              className="gpu-layer"
-            >
+           <motion.form
+  key="form"
+  onSubmit={handleSubmit}
+  className="glass-card gpu-layer"
+  style={{ padding: '28px 24px 32px', overflow: 'hidden' }}
+  initial={{ opacity: 0, y: 24 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+>
               {/* Step progress */}
               <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
                 {[1, 2, 3].map(s => (
