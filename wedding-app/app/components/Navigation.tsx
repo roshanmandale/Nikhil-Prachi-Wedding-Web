@@ -132,9 +132,9 @@ export default function Navigation() {
                   textDecoration: 'none',
                   marginBottom: '24px'
                 }}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
+                transition={{ duration: 0.4, delay: 0.1 + i * 0.05, ease: 'easeOut' }}
               >
                 {link.label}
               </motion.a>

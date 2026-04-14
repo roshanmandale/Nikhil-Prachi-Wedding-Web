@@ -32,11 +32,10 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className="diorama-core" style={{ opacity: opened ? 1 : 0, transition: 'opacity 0.8s ease' }}>
-        {/* Global UI chrome */}
-        <Navigation />
-        <MusicPlayer autoPlay={opened || isOpening} />
+      <Navigation />
+      <MusicPlayer autoPlay={opened || isOpening} />
 
+      <div className="diorama-core" style={{ opacity: opened ? 1 : 0, transition: 'opacity 0.8s ease' }}>
         {/* ── SECTIONS IN ORDER ── */}
         <div id="home"><HeroSection isVisible={opened} /></div>
         <EventsSection />
