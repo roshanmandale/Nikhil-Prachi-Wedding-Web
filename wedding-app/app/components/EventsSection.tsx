@@ -187,8 +187,7 @@ function VenueTag({ location }: { location: string }) {
     </span>
   );
 }
-
-function CeremonyRow({ item, index, baseDelay = 0 }: { item: typeof preWeddingEvents[0]; index: number; baseDelay?: number }) {
+function CeremonyRow({ item, index, baseDelay = 0 }: { item: any; index: number; baseDelay?: number }) {
   return (
     <motion.div
       key={index}
@@ -209,32 +208,31 @@ function CeremonyRow({ item, index, baseDelay = 0 }: { item: typeof preWeddingEv
       transition={{ duration: 0.6, delay: baseDelay + index * 0.1 }}
       whileHover={{ paddingLeft: '20px', transition: { duration: 0.2 } }}
     >
-      {/* Icon */}
       <div style={{
         flexShrink: 0,
-        width: '44px', height: '44px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        width: '44px',
+        height: '44px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         background: 'rgba(10,2,8,0.4)',
         border: '1px solid rgba(201,168,76,0.15)',
         borderRadius: '2px'
       }}>
-        <item.Icon/>
+        <item.Icon />
       </div>
 
-      {/* Time + Name + Desc */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
           <p style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: '24px',
             fontWeight: 300,
-            color: '#F5EDD8',
-            lineHeight: 1,
-            letterSpacing: '-0.01em',
-            flexShrink: 0
+            color: '#F5EDD8'
           }}>
             {item.time}
           </p>
+
           <p style={{
             fontFamily: "'Cinzel', serif",
             fontSize: '11px',
@@ -246,16 +244,17 @@ function CeremonyRow({ item, index, baseDelay = 0 }: { item: typeof preWeddingEv
             {item.name}
           </p>
         </div>
+
         <p style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: '14px',
           fontStyle: 'italic',
-          color: 'rgba(245,237,216,0.4)',
-          marginTop: '2px'
+          color: 'rgba(245,237,216,0.4)'
         }}>
           {item.desc}
         </p>
-        <VenueTag location={item.location}/>
+
+        <VenueTag location={item.location} />
       </div>
     </motion.div>
   );

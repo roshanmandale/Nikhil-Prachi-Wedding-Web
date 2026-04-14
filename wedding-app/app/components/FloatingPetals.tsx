@@ -24,12 +24,17 @@ const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
   return (
     <motion.div
       className="absolute will-change-transform"
-      style={{ width: flower.size, height: flower.size, left: `${flower.initialX}%`, top: -100 }}
-      initial={{ 
-        y: -50, 
-        rotate: flower.rotation, 
+      style={{
+        width: flower.size,
+        height: flower.size,
+        left: `${flower.initialX}%`,
+        top: -100,
+      }}
+      initial={{
+        y: -50,
+        rotate: flower.rotation,
         opacity: 0,
-        scale: 0.6
+        scale: 0.6,
       }}
       animate={{
         y: "110vh",
@@ -46,11 +51,25 @@ const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
       }}
     >
       {flower.type === "rose" ? (
-        <RealisticRose size={flower.size} opacity={0.9} rotate={flower.rotation} hue="crimson" />
+        <RealisticRose
+          size={flower.size}
+          opacity={0.9}
+          rotate={flower.rotation}
+          hue="crimson"
+        />
       ) : flower.type === "bud" ? (
-        <RoseBud size={flower.size} opacity={0.9} rotate={flower.rotation} />
+        <RoseBud
+          size={flower.size}
+          opacity={0.9}
+          rotate={flower.rotation}
+        />
       ) : (
-        <RealisticRose size={flower.size} opacity={0.6} rotate={flower.rotation} hue="dark" />
+        <RealisticRose
+          size={flower.size}
+          opacity={0.6}
+          rotate={flower.rotation}
+          hue="dark"
+        />
       )}
     </motion.div>
   );
@@ -63,19 +82,21 @@ export default function FloatingPetals() {
     setIsLoaded(true);
   }, []);
 
-  // Use useMemo to prevent re-renders of the random configurations
   const flowerData = useMemo(() => {
-    // Reduced count to 60 for perfect smoothness (lag-free)
     return Array.from({ length: 70 }).map((_, i) => ({
       id: i,
       initialX: Math.random() * 100,
       delay: Math.random() * 15,
       duration: 15 + Math.random() * 20,
       size: 15 + Math.random() * 25,
-      type: (Math.random() > 0.7 ? "rose" : (Math.random() > 0.4 ? "bud" : "darkRose")) as any,
+      type: (Math.random() > 0.7
+        ? "rose"
+        : Math.random() > 0.4
+        ? "bud"
+        : "darkRose") as FlowerProps["type"],
       rotation: Math.random() * 360,
       rotationSpeed: (Math.random() - 0.5) * 500,
-      horizontalDrift: (Math.random() - 0.5) * 150, // drift in pixels
+      horizontalDrift: (Math.random() - 0.5) * 150,
     }));
   }, []);
 
