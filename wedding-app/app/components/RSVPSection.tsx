@@ -180,8 +180,7 @@ export default function RSVPSection() {
               initial={{ opacity: 0, scale: 0.88 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, type: 'spring' }}
-              className="gpu-layer"
-            >
+className="glass-card gpu-layer"            >
               <FallingPetals count={8}/>
               {/* Animated heart */}
               <motion.div
