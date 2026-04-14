@@ -155,7 +155,7 @@ export default function VenueSection() {
              {/* Dome/Roof */}
              <path d="M50 30 L140 5 L230 30 Z" fill="rgba(107,15,26,0.3)" stroke="rgba(201,168,76,0.5)" strokeWidth="1"/>
              {/* Entrance arch */}
-             <rect x="124" y="56" width="32" height="29" rx="14 14 0 0" fill="rgba(107,15,26,0.8)" stroke="rgba(201,168,76,0.7)" strokeWidth="1.2"/>
+             <rect x="124" y="56" width="32" height="29" rx="14" fill="rgba(107,15,26,0.8)" stroke="rgba(201,168,76,0.7)" strokeWidth="1.2"/>
              {/* Steps */}
              <rect x="100" y="82" width="80" height="5" rx="1" fill="rgba(245,237,216,0.15)" stroke="rgba(201,168,76,0.4)" strokeWidth="0.5"/>
              <rect x="108" y="86" width="64" height="4" rx="1" fill="rgba(245,237,216,0.1)" stroke="rgba(201,168,76,0.3)" strokeWidth="0.5"/>

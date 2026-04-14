@@ -28,7 +28,7 @@ export default function HeroSection() {
       }}
     >
       {/* Parallax rose background */}
-      <motion.div style={{ y: bgY, position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+      <motion.div style={{ y: bgY, position: 'absolute', inset: 0, pointerEvents: 'none', willChange: 'transform' }}>
         {/* Ambient crimson gradient pools */}
         <div style={{
           position: 'absolute', inset: 0,
@@ -125,7 +125,7 @@ export default function HeroSection() {
 
       {/* ── TEXT CONTENT ─── */}
       <motion.div
-        style={{ y: textY, opacity: textOpacity, position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: '640px', width: '100%' }}
+        style={{ y: textY, opacity: textOpacity, position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: '640px', width: '100%', willChange: 'transform, opacity' }}
       >
         {/* Label */}
         <motion.div

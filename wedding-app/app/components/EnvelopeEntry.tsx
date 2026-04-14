@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { RealisticRose, RoseBud, FallingPetals } from "./SvgOrnaments";
 
 // Animated wax seal
-function WaxSeal({ glowing = false }: { glowing?: boolean }) {
-  const id = "seal-main";
+const WaxSeal = React.memo(function WaxSeal({ glowing = false }: { glowing?: boolean }) {
+  const reactId = useId();
+  const id = `seal-main-${reactId.replace(/:/g, '')}`;
   return (
     <svg viewBox="0 0 140 140" width="140" height="140" fill="none">
       <defs>
@@ -55,10 +56,10 @@ function WaxSeal({ glowing = false }: { glowing?: boolean }) {
       <ellipse cx="58" cy="52" rx="14" ry="8" fill="rgba(255,200,200,0.07)" transform="rotate(-30 58 52)"/>
     </svg>
   );
-}
+});
 
 // Gold shimmer text line
-function GoldLineText({ text }: { text: string }) {
+const GoldLineText = React.memo(function GoldLineText({ text }: { text: string }) {
   return (
     <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 12, margin: '6px 0' }}>
       <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5))' }}/>
@@ -74,7 +75,7 @@ function GoldLineText({ text }: { text: string }) {
       <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(201,168,76,0.5), transparent)' }}/>
     </div>
   );
-}
+});
 
 interface Props {
   onOpen: () => void;
@@ -122,6 +123,8 @@ export default function EnvelopeEntry({ onOpen }: Props) {
             alignItems: 'center',
             justifyContent: 'center',
             overflow: 'hidden',
+            willChange: 'background',
+            transform: 'translateZ(0)'
           }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.06, transition: { duration: 0.6, ease: 'easeInOut' } }}
@@ -253,14 +256,17 @@ export default function EnvelopeEntry({ onOpen }: Props) {
                 style={{
                   position: 'absolute',
                   top: '42%', left: '50%',
-                  transform: 'translate(-50%, -50%)',
                   cursor: 'pointer',
                   zIndex: 5,
                 }}
+                initial={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.8 }}
+                animate={phase === 'opening' 
+                  ? { x: "-50%", y: "-60px", scale: 1.5, opacity: 0 } 
+                  : { x: "-50%", y: "-50%", opacity: 1, scale: 1 }
+                }
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.92 }}
                 onClick={handleOpen}
-                animate={phase === 'opening' ? { scale: 1.5, opacity: 0, y: -30 } : {}}
                 transition={{ duration: 0.6 }}
               >
                 <WaxSeal glowing />

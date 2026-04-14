@@ -33,18 +33,25 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
     A5: 880.00
   };
 
-  // Romantic melody: [freq, beats, vol]
+  // High-fidelity Bansuri Flute melody (Raag Yaman based)
   const MELODY: [number, number, number][] = [
-    [NOTES.D4,  1,   0.85], [NOTES.Fs4, 0.5, 0.75], [NOTES.A4,  0.5, 0.8],
-    [NOTES.B4,  1.5, 0.9],  [NOTES.A4,  0.5, 0.75], [NOTES.Fs4, 1,   0.8],
-    [NOTES.E4,  1,   0.75], [NOTES.D4,  1,   0.8],  [NOTES.Fs4, 1,   0.85],
-    [NOTES.A4,  2,   1.0],  [NOTES.D5,  1,   1.0],  [NOTES.Cs5, 0.5, 0.9],
-    [NOTES.B4,  0.5, 0.85], [NOTES.A4,  1,   0.85], [NOTES.Fs4, 0.5, 0.75],
-    [NOTES.G4,  0.5, 0.7],  [NOTES.A4,  2,   0.9],  [NOTES.E4,  1,   0.75],
-    [NOTES.D4,  1,   0.85], [NOTES.A3,  0.5, 0.65], [NOTES.D4,  0.5, 0.7],
-    [NOTES.Fs4, 1,   0.8],  [NOTES.A4,  1,   0.85], [NOTES.B4,  1,   0.9],
-    [NOTES.Cs5, 0.5, 0.85], [NOTES.D5,  1.5, 1.0],  [NOTES.A4,  1,   0.85],
-    [NOTES.Fs4, 1,   0.8],  [NOTES.E4,  0.5, 0.7],  [NOTES.D4,  2.5, 0.9],
+    // Phrase 1: Intro
+    [NOTES.A4,  1,   0.8],  [NOTES.B4,  0.5, 0.7],  [NOTES.A4,  1.5, 0.9],
+    [NOTES.Fs4, 0.5, 0.75], [NOTES.G4,  0.5, 0.7],  [NOTES.A4,  1.5, 0.85],
+    [NOTES.E4,  1.5, 0.7],  [NOTES.D4,  2.5, 1.0],
+    
+    // Phrase 2: Building
+    [NOTES.A4,  1,   0.85], [NOTES.D5,  1,   1.0],   [NOTES.Cs5, 0.5, 0.9],
+    [NOTES.B4,  1.5, 0.85], [NOTES.A4,  0.5, 0.75],  [NOTES.Fs4, 1.5, 0.8],
+    [NOTES.A4,  1,   0.9],  [NOTES.G4,  0.5, 0.7],   [NOTES.Fs4, 0.5, 0.75],
+    [NOTES.E4,  2.5, 0.8],
+    
+    // Phrase 3: Climax
+    [NOTES.D4,  1,   0.85], [NOTES.Fs4, 0.5, 0.75],  [NOTES.A4,  0.5, 0.8],
+    [NOTES.D5,  1.5, 1.1],  [NOTES.E5,  0.5, 0.9],   [NOTES.Fs5, 1,   1.0],
+    [NOTES.E5,  0.5, 0.85], [NOTES.D5,  1.5, 1.0],   [NOTES.A4,  1,   0.85],
+    [NOTES.B4,  1.5, 0.9],  [NOTES.A4,  0.5, 0.8],   [NOTES.Fs4, 2,   0.85],
+    [NOTES.E4,  0.5, 0.7],  [NOTES.D4,  3,   1.0],
   ];
 
   // Chord pads: [freqs[], beats]
@@ -66,36 +73,51 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
     return node;
   };
 
-  const playPiano = (
+  const playFlute = (
     ctx: AudioContext, dest: AudioNode, reverb: AudioNode,
     freq: number, start: number, dur: number, vol: number
   ) => {
     const G = ctx.createGain();
     G.connect(dest);
     G.gain.setValueAtTime(0, start);
-    G.gain.linearRampToValueAtTime(0.5 * vol, start + 0.018);
-    G.gain.setTargetAtTime(0.32 * vol, start + 0.05, 0.18);
-    G.gain.setTargetAtTime(0, start + dur * 0.6, dur * 0.28);
+    G.gain.linearRampToValueAtTime(0.4 * vol, start + 0.08); // Softer attack
+    G.gain.setTargetAtTime(0.3 * vol, start + 0.1, 0.2);
+    G.gain.setTargetAtTime(0, start + dur * 0.8, dur * 0.15); // Longer tail
     nodeRefs.current.push(G);
 
     const rG = ctx.createGain();
-    rG.gain.value = 0.38;
+    rG.gain.value = 0.45;
     rG.connect(reverb);
     nodeRefs.current.push(rG);
 
-    [1, 2, 3, 4].forEach((h, idx) => {
+    // Flute harmonics (Square + Sine blend for 'breath')
+    [1, 2, 3].forEach((h, idx) => {
       const o = ctx.createOscillator();
       const hG = ctx.createGain();
-      o.type = idx === 0 ? 'triangle' : 'sine';
-      o.frequency.value = freq * h;
-      hG.gain.value = [1, 0.4, 0.2, 0.07][idx];
+      o.type = idx === 0 ? 'sine' : idx === 1 ? 'triangle' : 'sine';
+      o.frequency.value = freq * h + (idx === 0 ? Math.sin(start * 10) * 2 : 0); // Subtle vibrato
+      hG.gain.value = [1, 0.2, 0.05][idx];
       o.connect(hG);
       hG.connect(G);
       hG.connect(rG);
       o.start(start);
-      o.stop(start + dur + 0.5);
+      o.stop(start + dur + 0.8);
       nodeRefs.current.push(o, hG);
     });
+    
+    // Breath noise
+    const noise = ctx.createOscillator();
+    const nG = ctx.createGain();
+    noise.type = 'sine';
+    noise.frequency.value = freq * 4.2;
+    nG.gain.setValueAtTime(0, start);
+    nG.gain.linearRampToValueAtTime(0.012, start + 0.05);
+    nG.gain.linearRampToValueAtTime(0, start + dur);
+    noise.connect(nG);
+    nG.connect(G);
+    noise.start(start);
+    noise.stop(start + dur);
+    nodeRefs.current.push(noise, nG);
   };
 
   const playPad = (
@@ -132,7 +154,7 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
 
     for (let i = 0; i < MELODY.length; i++) {
       const [freq, beats, vol] = MELODY[i];
-      playPiano(ctx, dry, reverb, freq, t, beats * beat, vol);
+      playFlute(ctx, dry, reverb, freq, t, beats * beat, vol);
       t += beats * beat;
     }
 
@@ -176,12 +198,18 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
     dry.gain.value = 0.6;
     dry.connect(comp);
 
-    const firstPassageDuration = schedulePassage(ctx, dry, reverb, ctx.currentTime + 0.05);
+    let nextStartTime = ctx.currentTime + 0.2;
+    const durationMs = schedulePassage(ctx, dry, reverb, nextStartTime);
+    const durationSec = durationMs / 1000;
+    nextStartTime += durationSec;
+
+    // Lookahead buffering: schedule the next loop 500ms before the current one ends
     passageTimerRef.current = setInterval(() => {
       if (ctxRef.current) {
-        schedulePassage(ctxRef.current, dry, reverb, ctxRef.current.currentTime + 0.05);
+        schedulePassage(ctxRef.current, dry, reverb, nextStartTime);
+        nextStartTime += durationSec;
       }
-    }, firstPassageDuration);
+    }, Math.max(durationMs - 500, 1000));
 
     setPlaying(true);
   };

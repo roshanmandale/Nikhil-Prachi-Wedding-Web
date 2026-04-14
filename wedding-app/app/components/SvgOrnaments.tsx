@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useId } from "react";
+
 // ─── REALISTIC ROSE SVG ──────────────────────────────────────────────────
 // Uses SVG gradients, filters, and complex bezier curves for a photographic look
 
@@ -10,8 +12,9 @@ export interface RoseProps {
   hue?: 'crimson' | 'dark' | 'blush';
 }
 
-export function RealisticRose({ size = 120, opacity = 1, rotate = 0, hue = 'crimson' }: RoseProps) {
-  const id = `rose-${Math.random().toString(36).substr(2, 6)}`;
+export const RealisticRose = React.memo(function RealisticRose({ size = 120, opacity = 1, rotate = 0, hue = 'crimson' }: RoseProps) {
+  const reactId = useId();
+  const id = `rose-${reactId.replace(/:/g, '')}`;
 
   const colors = {
     crimson: {
@@ -200,11 +203,12 @@ export function RealisticRose({ size = 120, opacity = 1, rotate = 0, hue = 'crim
       <ellipse cx="93" cy="85" rx="8" ry="12" fill="rgba(255,200,200,0.07)" transform="rotate(-30 93 85)"/>
     </svg>
   );
-}
+});
 
 // ─── SMALL BUD ────────────────────────────────────────────────────────────
-export function RoseBud({ size = 60, opacity = 1, rotate = 0 }: { size?: number; opacity?: number; rotate?: number }) {
-  const id = `bud-${Math.random().toString(36).substr(2, 5)}`;
+export const RoseBud = React.memo(function RoseBud({ size = 60, opacity = 1, rotate = 0 }: { size?: number; opacity?: number; rotate?: number }) {
+  const reactId = useId();
+  const id = `bud-${reactId.replace(/:/g, '')}`;
   return (
     <svg viewBox="0 0 100 130" width={size} height={size * 1.3} style={{ opacity, transform: `rotate(${rotate}deg)`, display: 'block' }}>
       <defs>
@@ -232,10 +236,10 @@ export function RoseBud({ size = 60, opacity = 1, rotate = 0 }: { size?: number;
       <ellipse cx="46" cy="58" rx="3" ry="6" fill="rgba(255,180,180,0.08)" transform="rotate(-20 46 58)"/>
     </svg>
   );
-}
+});
 
 // ─── ROSE CLUSTER for backgrounds ─────────────────────────────────────────
-export function RoseCluster({
+export const RoseCluster = React.memo(function RoseCluster({
   count = 5,
   maxSize = 150,
   minSize = 60,
@@ -279,10 +283,10 @@ export function RoseCluster({
       ))}
     </div>
   );
-}
+});
 
 // ─── FALLING PETAL ANIMATION ──────────────────────────────────────────────
-export function FallingPetals({ count = 12 }: { count?: number }) {
+export const FallingPetals = React.memo(function FallingPetals({ count = 12 }: { count?: number }) {
   const petals = Array.from({ length: count }, (_, i) => ({
     left: `${(i * 8.3) % 100}%`,
     duration: 6 + (i * 1.7) % 8,
@@ -312,4 +316,4 @@ export function FallingPetals({ count = 12 }: { count?: number }) {
       ))}
     </div>
   );
-}
+});

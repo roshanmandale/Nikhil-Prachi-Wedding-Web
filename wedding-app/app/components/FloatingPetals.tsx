@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { memo, useEffect, useState, useMemo } from "react";
 import { RealisticRose, RoseBud } from "./SvgOrnaments";
 
 /* ═══════════════════════════════════════════
@@ -20,7 +20,7 @@ interface FlowerProps {
   horizontalDrift: number;
 }
 
-const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
+const FlowerItem = memo(({ flower }: { flower: FlowerProps }) => {
   return (
     <motion.div
       className="absolute will-change-transform"
@@ -29,6 +29,8 @@ const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
         height: flower.size,
         left: `${flower.initialX}%`,
         top: -100,
+        willChange: "transform, opacity",
+        transform: "translateZ(0)",
       }}
       initial={{
         y: -50,
@@ -73,7 +75,7 @@ const FlowerItem = ({ flower }: { flower: FlowerProps }) => {
       )}
     </motion.div>
   );
-};
+});
 
 export default function FloatingPetals() {
   const [isLoaded, setIsLoaded] = useState(false);
