@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { AnimatePresence } from "framer-motion";
 
 const EnvelopeEntry  = dynamic(() => import("./components/EnvelopeEntry"),  { ssr: false });
 const Navigation     = dynamic(() => import("./components/Navigation"),     { ssr: false });
@@ -16,24 +17,35 @@ const Footer         = dynamic(() => import("./components/Footer"),         { ss
 
 export default function Home() {
   const [opened, setOpened] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
 
   return (
     <main style={{ background: '#050305', minHeight: '100vh', overflowX: 'hidden' }}>
       {/* Tap-to-open envelope gate */}
-      {!opened && <EnvelopeEntry onOpen={() => setOpened(true)} />}
+      <AnimatePresence mode="wait">
+        {!opened && (
+          <EnvelopeEntry 
+            key="entry-gate"
+            onStartTransition={() => setIsOpening(true)}
+            onOpen={() => setOpened(true)} 
+          />
+        )}
+      </AnimatePresence>
 
-      {/* Global UI chrome */}
-      <Navigation />
-      <MusicPlayer autoPlay={opened} />
+      <div className="diorama-core" style={{ opacity: opened ? 1 : 0, transition: 'opacity 0.8s ease' }}>
+        {/* Global UI chrome */}
+        <Navigation />
+        <MusicPlayer autoPlay={opened || isOpening} />
 
-      {/* ── SECTIONS IN ORDER ── */}
-      <div id="home"><HeroSection /></div>
-      <EventsSection />
-      <CountdownSection />
-      <VenueSection />
-      <GallerySection />
-      <RSVPSection />
-      <Footer />
+        {/* ── SECTIONS IN ORDER ── */}
+        <div id="home"><HeroSection isVisible={opened} /></div>
+        <EventsSection />
+        <CountdownSection />
+        <VenueSection />
+        <GallerySection />
+        <RSVPSection />
+        <Footer />
+      </div>
     </main>
   );
 }

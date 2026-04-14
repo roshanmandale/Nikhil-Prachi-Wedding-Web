@@ -180,6 +180,7 @@ export default function RSVPSection() {
               initial={{ opacity: 0, scale: 0.88 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, type: 'spring' }}
+              className="gpu-layer"
             >
               <FallingPetals count={8}/>
               {/* Animated heart */}
@@ -254,7 +255,8 @@ export default function RSVPSection() {
               style={{ padding: '28px 24px 32px', overflow: 'hidden' }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+              className="gpu-layer"
             >
               {/* Step progress */}
               <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>

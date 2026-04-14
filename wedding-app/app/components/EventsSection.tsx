@@ -204,9 +204,10 @@ function CeremonyRow({ item, index, baseDelay = 0 }: { item: any; index: number;
       }}
       initial={{ opacity: 0, x: -28 }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay: baseDelay + index * 0.1 }}
-      whileHover={{ paddingLeft: '20px', transition: { duration: 0.2 } }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.7, delay: baseDelay + index * 0.1, ease: 'easeOut' }}
+      whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+      className="gpu-layer-simple"
     >
       <div style={{
         flexShrink: 0,
@@ -278,7 +279,9 @@ function VenueHeader({ label, city, date }: { label: string; city: string; date:
         border: '1px solid rgba(107,15,26,0.45)',
         borderLeft: '3px solid #8B1A24',
         borderRadius: '2px'
-      }}>
+      }}
+      className="gpu-layer-simple"
+    >
         <svg width="10" height="13" viewBox="0 0 10 13" fill="none">
           <path d="M5 0C2.2 0 0 2.2 0 5 0 8.7 5 13 5 13S10 8.7 10 5C10 2.2 7.8 0 5 0Z" fill="rgba(201,168,76,0.6)"/>
           <circle cx="5" cy="5" r="1.8" fill="rgba(245,237,216,0.4)"/>
@@ -320,6 +323,7 @@ export default function EventsSection() {
         style={{ position: 'absolute', left: '-75px', top: '12%', opacity: 0.22, pointerEvents: 'none' }}
         animate={{ y: [0, -12, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        className="gpu-layer"
       >
         <RealisticRose size={225} opacity={1} rotate={-20} hue="crimson"/>
       </motion.div>

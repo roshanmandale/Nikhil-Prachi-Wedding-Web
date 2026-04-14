@@ -117,8 +117,8 @@ export default function VenueSection() {
            }}
            initial={{ opacity: 0, scale: 0.96, y: 20 }}
            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.8 }}
+           viewport={{ once: true, amount: 0.1 }}
+           transition={{ duration: 0.8, ease: 'easeOut' }}
          >
            {/* Corner ornaments */}
            <svg style={{ position: 'absolute', top: 10, left: 10 }} width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -228,6 +228,7 @@ export default function VenueSection() {
           {details.map((item, i) => (
             <motion.div
               key={i}
+              className="gpu-layer-simple"
               style={{
                 padding: '20px 16px',
                 background: 'rgba(255,255,255,0.02)',
@@ -239,8 +240,8 @@ export default function VenueSection() {
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: 'easeOut' }}
               whileHover={{ 
                 borderBottomColor: 'rgba(201,168,76,0.8)', 
                 background: 'rgba(255,255,255,0.05)',

@@ -14,15 +14,16 @@ const PhotoFrame = ({ style_id, imageUrl }: { style_id: number, imageUrl?: strin
 
   return (
     <motion.div 
-      whileHover={{ y: -8, boxShadow: '0 15px 30px rgba(107,15,26,0.4)', borderColor: 'rgba(201,168,76,0.7)' }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 } }}
+      className="gpu-layer-simple"
       style={{
       background: bg1,
       border: '1px solid rgba(201,168,76,0.3)',
-      padding: '4px', // Reduced padding slightly for better image fit
+      padding: '4px',
       position: 'relative',
       borderRadius: '2px',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
     }}>
       {/* Decorative inner corners */}
       <div style={{ position: 'absolute', top: 8, left: 8, width: 10, height: 10, borderTop: '1px solid rgba(201,168,76,0.6)', borderLeft: '1px solid rgba(201,168,76,0.6)', zIndex: 3 }}/>
@@ -165,8 +166,9 @@ export default function GallerySection() {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.08 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.08, ease: 'easeOut' }}
+                className="gpu-layer-simple"
               >
                 <PhotoFrame style_id={i} imageUrl={item.imageUrl} />
                 <div style={{ padding: '10px 4px 4px' }}>
@@ -270,8 +272,9 @@ export default function GallerySection() {
                   style={{ marginBottom: '14px' }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ delay: i * 0.1, ease: 'easeOut' }}
+                  className="gpu-layer-simple"
                 >
                   <p style={{
                     fontFamily: "'Cormorant Garamond', serif",

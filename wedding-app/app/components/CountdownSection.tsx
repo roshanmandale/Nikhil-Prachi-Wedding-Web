@@ -7,11 +7,16 @@ import { RealisticRose } from "./SvgOrnaments";
 const WEDDING_DATE = new Date("2026-06-08T11:00:00");
 
 function useCountdown(target: Date) {
-  const [diff, setDiff] = useState(() => Math.max(0, target.getTime() - Date.now()));
+  const [diff, setDiff] = useState<number | null>(null);
+
   useEffect(() => {
+    setDiff(Math.max(0, target.getTime() - Date.now()));
     const t = setInterval(() => setDiff(Math.max(0, target.getTime() - Date.now())), 1000);
     return () => clearInterval(t);
   }, [target]);
+
+  if (diff === null) return { days: 0, hours: 0, mins: 0, secs: 0 };
+
   const s = Math.floor(diff / 1000);
   return {
     days: Math.floor(s / 86400),
@@ -27,7 +32,8 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
       style={{ textAlign: 'center' }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, amount: 0.1 }}
+      className="gpu-layer-simple"
       transition={{ duration: 0.6 }}
     >
       {/* Flip card wrapper */}
@@ -301,7 +307,8 @@ export default function CountdownSection() {
           style={{ display: 'flex', justifyContent: 'center', gap: '12px', alignItems: 'flex-start', marginBottom: '48px', flexWrap: 'wrap' }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
+          className="gpu-layer"
           transition={{ duration: 0.8 }}
         >
           <CountdownUnit value={days} label="Days"/>

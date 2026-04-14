@@ -47,7 +47,7 @@ export const RealisticRose = React.memo(function RealisticRose({ size = 120, opa
       viewBox="0 0 200 220"
       width={size}
       height={size * 1.1}
-      style={{ opacity, transform: `rotate(${rotate}deg)`, display: 'block' }}
+      style={{ opacity, transform: `rotate(${rotate}deg)`, display: 'block', pointerEvents: 'none' }}
     >
       <defs>
         {/* Petal gradients with realistic shading */}
@@ -210,7 +210,7 @@ export const RoseBud = React.memo(function RoseBud({ size = 60, opacity = 1, rot
   const reactId = useId();
   const id = `bud-${reactId.replace(/:/g, '')}`;
   return (
-    <svg viewBox="0 0 100 130" width={size} height={size * 1.3} style={{ opacity, transform: `rotate(${rotate}deg)`, display: 'block' }}>
+    <svg viewBox="0 0 100 130" width={size} height={size * 1.3} style={{ opacity, transform: `rotate(${rotate}deg)`, display: 'block', pointerEvents: 'none' }}>
       <defs>
         <radialGradient id={`${id}-g1`} cx="40%" cy="30%" r="65%">
           <stop offset="0%" stopColor="#B02030"/>

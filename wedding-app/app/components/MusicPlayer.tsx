@@ -176,7 +176,8 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
 
     const master = ctx.createGain();
     master.gain.setValueAtTime(0, ctx.currentTime);
-    master.gain.linearRampToValueAtTime(0.88, ctx.currentTime + 1.5);
+    // Smooth 2.2s fade-in to prevent CPU spike or audio pop
+    master.gain.exponentialRampToValueAtTime(0.88, ctx.currentTime + 2.2);
     master.connect(ctx.destination);
     masterRef.current = master;
 
@@ -217,7 +218,7 @@ export default function MusicPlayer({ autoPlay = false }: { autoPlay?: boolean }
   const stopMusic = () => {
     if (passageTimerRef.current) { clearInterval(passageTimerRef.current); passageTimerRef.current = null; }
     if (masterRef.current && ctxRef.current) {
-      masterRef.current.gain.setTargetAtTime(0, ctxRef.current.currentTime, 0.5);
+      masterRef.current.gain.setTargetAtTime(0, ctxRef.current.currentTime, 0.4);
     }
     setTimeout(() => {
       nodeRefs.current.forEach(n => { try { if (n instanceof OscillatorNode) n.stop(); n.disconnect(); } catch {} });

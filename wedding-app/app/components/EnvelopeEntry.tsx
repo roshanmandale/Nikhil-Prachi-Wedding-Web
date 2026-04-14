@@ -79,9 +79,10 @@ const GoldLineText = React.memo(function GoldLineText({ text }: { text: string }
 
 interface Props {
   onOpen: () => void;
+  onStartTransition?: () => void;
 }
 
-export default function EnvelopeEntry({ onOpen }: Props) {
+export default function EnvelopeEntry({ onOpen, onStartTransition }: Props) {
   const [phase, setPhase] = useState<'idle' | 'opening' | 'done'>('idle');
   const [pulseReady, setPulseReady] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
@@ -102,9 +103,13 @@ export default function EnvelopeEntry({ onOpen }: Props) {
   const handleOpen = () => {
     if (phase !== 'idle') return;
     setPhase('opening');
+    // Immediately signal transition start for audio synchronization
+    if (onStartTransition) onStartTransition();
+    
     setTimeout(() => {
       setPhase('done');
-      setTimeout(onOpen, 500);
+      // Complete the unmount after animation settles
+      setTimeout(onOpen, 600);
     }, 1400);
   };
 
@@ -124,10 +129,15 @@ export default function EnvelopeEntry({ onOpen }: Props) {
             justifyContent: 'center',
             overflow: 'hidden',
             willChange: 'background',
-            transform: 'translateZ(0)'
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden'
           }}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.06, transition: { duration: 0.6, ease: 'easeInOut' } }}
+          exit={{ 
+            opacity: 0, 
+            scale: 1.1, 
+            transition: { duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] } 
+          }}
         >
           {/* Falling petals */}
           <FallingPetals count={16}/>
@@ -201,10 +211,12 @@ export default function EnvelopeEntry({ onOpen }: Props) {
             style={{
               position: 'relative', zIndex: 10,
               textAlign: 'center', padding: '0 28px',
-              maxWidth: '480px', width: '100%'
+              maxWidth: '480px', width: '100%',
+              willChange: 'transform, opacity',
+              transform: 'translate3d(0, 0, 0)'
             }}
-            animate={phase === 'opening' ? { scale: 1.04, opacity: 0, y: -20 } : {}}
-            transition={{ duration: 0.8 }}
+            animate={phase === 'opening' ? { scale: 1.08, opacity: 0, y: -40 } : {}}
+            transition={{ duration: 1.2, ease: [0.43, 0.13, 0.23, 0.96] }}
           >
             <GoldLineText text="You Are Cordially Invited" />
 

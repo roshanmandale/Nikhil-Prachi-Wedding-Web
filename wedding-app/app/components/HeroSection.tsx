@@ -1,15 +1,26 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { RealisticRose, RoseBud, FallingPetals } from "./SvgOrnaments";
 
-export default function HeroSection() {
+export default function HeroSection({ isVisible = true }: { isVisible?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '28%']);
-  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '18%']);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const { scrollYProgress } = useScroll({ 
+    target: ref, 
+    offset: ['start start', 'end start'] 
+  });
+
+  // Ultra-smooth "liquid" scroll syncing
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const bgY = useTransform(smoothProgress, [0, 1], ['0%', '15%']);
+  const textY = useTransform(smoothProgress, [0, 1], ['0%', '10%']);
+  const textOpacity = useTransform(smoothProgress, [0, 0.45], [1, 0]);
 
   return (
     <section
@@ -27,8 +38,17 @@ export default function HeroSection() {
         padding: '100px 24px 80px'
       }}
     >
-      {/* Parallax rose background */}
-      <motion.div style={{ y: bgY, position: 'absolute', inset: 0, pointerEvents: 'none', willChange: 'transform' }}>
+      {/* Parallax rose background - Strict Absolute Stacking */}
+      <motion.div 
+        style={{ 
+          y: bgY, 
+          position: 'absolute', 
+          inset: 0, 
+          pointerEvents: 'none', 
+          willChange: 'transform',
+          transform: 'translateZ(0)' // Force compositor layer
+        }}
+      >
         {/* Ambient crimson gradient pools */}
         <div style={{
           position: 'absolute', inset: 0,
@@ -123,15 +143,27 @@ export default function HeroSection() {
         pointerEvents: 'none'
       }}/>
 
-      {/* ── TEXT CONTENT ─── */}
       <motion.div
-        style={{ y: textY, opacity: textOpacity, position: 'relative', zIndex: 5, textAlign: 'center', maxWidth: '640px', width: '100%', willChange: 'transform, opacity' }}
+        style={{ 
+          y: textY, 
+          opacity: isVisible ? textOpacity : 0, 
+          position: 'relative', 
+          zIndex: 5, 
+          textAlign: 'center', 
+          maxWidth: '640px', 
+          width: '100%', 
+          willChange: 'transform, opacity' 
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isVisible ? 1 : 0 }}
+        transition={{ duration: 1 }}
       >
         {/* Label */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.3 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <p style={{
             fontFamily: "'Cinzel', serif",
